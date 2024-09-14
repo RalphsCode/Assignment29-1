@@ -1,35 +1,19 @@
 console.log("JS is running.")
 
 // Get the form elements
-const form = document.getElementById("fav_num_form");
+const form = document.getElementsByTagName("form")
 
 const favNum = document.getElementById("fav_num");
-const btnSubmit = document.getElementById("btn_fav_num");
+const favNums = document.getElementById("fav_nums");
+const btnSubmit1 = document.getElementById("btn_fav_num");
+const btnSubmit2 = document.getElementById("btn_fav_nums");
 const favNumberText = document.getElementById("fav_number_text");
 const favNumberFact = document.getElementById("fav_number_fact");
 
-// Add event listener to the submit button
-btnSubmit.addEventListener("click", function(evt) {
-    evt.preventDefault();
-    // Get the entered number
-    const num = favNum.value;
-    // Write the number to the DOM
-    favNumberText.innerHTML = `<p>Number: ${num}</p>`;
-
-    // Make API Call
-    getFacts(num)
-        /* Calls a Promise to get the API data */
-        .then(data => {
-            favNumberFact.innerHTML = `<p>Number Fact: ${data.text}</p>`;
-            })
-        .catch(error => {
-            console.error(`Promise Failed: ${error}`);   
-            });
-    } )    // END addEventListener 
-
 
 function getFacts(num) {
-    /* Make a promise to get the API data using Axios */
+    /* Make a promise to get the API data using Axios. 
+       Returns the resp.data */
     let baseURL = "http://numbersapi.com";
 
     return new Promise((resolve, reject) => {
@@ -48,5 +32,97 @@ function getFacts(num) {
             reject(err);
      } );
         });
-        
     }  // END getFacts()
+
+
+// favorite Number
+
+// Add event listener to the submit button
+btnSubmit1.addEventListener("click", function(evt) {
+    evt.preventDefault();
+    // Get the entered number
+    const num = favNum.value;
+    // Write the number to the DOM
+    favNumberText.innerHTML = `<p>Number: ${num}</p>`;
+    form[0].reset();
+
+    // Make API Call and return the data
+    getFacts(num)
+        /* Calls a Promise & returns the API data */
+        .then(data => {
+            favNumberFact.innerHTML = `<p>Number Fact: ${data.text}</p>`;
+            })
+        .catch(error => {
+            console.error(`Promise Failed: ${error}`);   
+            });
+    } )    // END addEventListener 
+
+
+
+// favorite Numbers version 1 - multiple API calls
+
+// // Add event listener to the submit button
+// btnSubmit2.addEventListener("click", function(evt) {
+//     evt.preventDefault();
+//     // Get the entered number
+//     const nums = favNums.value;
+//     form[1].reset();
+//     // Write the number to the DOM
+//     favNumberText.innerHTML = `<p>Numbers: ${nums}</p>`;
+
+//     nums_arr = nums.split(',')
+
+//     // Make API Call
+//     for (let i=0; i < nums_arr.length; i++) {
+//         getFacts(nums_arr[i])
+        
+//         /* Calls a Promise to get the API data */
+//         .then(data => {
+//             favNumberFact.innerHTML += `<p>Number Fact: ${data.text}</p>`;
+//             })
+//         .catch(error => {
+//             console.error(`Promise Failed: ${error}`);   
+//             });
+//     }
+
+//     } )    // END addEventListener 
+
+
+
+// favorite Numbers version 2 - Only one API call
+
+// Add event listener to the submit button
+btnSubmit2.addEventListener("click", function(evt) {
+    evt.preventDefault();
+    // Get the entered number
+    const nums = favNums.value;
+    form[1].reset();
+    // Write the numbers to the DOM
+    favNumberText.innerHTML = `<p>Numbers: ${nums}</p>`;
+
+    // Make an string of the entered numbers, to use in the URL for the API call
+    // Make an array of the numbers
+    nums_arr = nums.split(',')
+
+    // Take the array elements and make a string
+    let numbers = ""
+    for (let i=0; i < nums_arr.length; i++) {
+        if (i == 0){
+            numbers += `${nums_arr[i]}`
+        } else {
+                numbers += `,${nums_arr[i]}`
+        } };
+
+    // Pass the numbers string into getFacts to return the API data
+    getFacts(numbers)
+    .then(data => {
+        for (res in data) {
+                favNumberFact.innerHTML += `${data[res]}</p>`
+            };
+            
+    }  ) 
+    .catch(error => {
+            console.error(`Promise Failed: ${error}`);   
+            });
+    }
+     )    // END addEventListener 

@@ -7,6 +7,7 @@ const favNum = document.getElementById("fav_num");
 const favNums = document.getElementById("fav_nums");
 const btnSubmit1 = document.getElementById("btn_fav_num");
 const btnSubmit2 = document.getElementById("btn_fav_nums");
+const btnSubmit3 = document.getElementById("btn_fav_num_4");
 const favNumberText = document.getElementById("fav_number_text");
 const favNumberFact = document.getElementById("fav_number_fact");
 
@@ -40,6 +41,7 @@ function getFacts(num) {
 // Add event listener to the submit button
 btnSubmit1.addEventListener("click", function(evt) {
     evt.preventDefault();
+    favNumberFact.innerHTML = ''
     // Get the entered number
     const num = favNum.value;
     // Write the number to the DOM
@@ -64,6 +66,7 @@ btnSubmit1.addEventListener("click", function(evt) {
 // // Add event listener to the submit button
 // btnSubmit2.addEventListener("click", function(evt) {
 //     evt.preventDefault();
+//     favNumberFact.innerHTML = ''
 //     // Get the entered number
 //     const nums = favNums.value;
 //     form[1].reset();
@@ -94,6 +97,7 @@ btnSubmit1.addEventListener("click", function(evt) {
 // Add event listener to the submit button
 btnSubmit2.addEventListener("click", function(evt) {
     evt.preventDefault();
+    favNumberFact.innerHTML = ''
     // Get the entered number
     const nums = favNums.value;
     form[1].reset();
@@ -126,3 +130,34 @@ btnSubmit2.addEventListener("click", function(evt) {
             });
     }
      )    // END addEventListener 
+
+
+/* Return 4 facts for a number */
+
+// Add event listener to the submit button
+btnSubmit3.addEventListener("click", function(evt) {
+    evt.preventDefault();
+    favNumberFact.innerHTML = ''
+    // Get the entered number
+    const num = favNum.value;
+    // Write the number to the DOM
+    favNumberText.innerHTML = `<p>Number: ${num}</p>`;
+    form[0].reset();
+
+    // Make API Call and return the data
+    for (let i=0; i<4; i++){
+        getFacts(num)
+        .then(data => {
+            favNumberFact.innerHTML += `${data.text}</p>`
+                })
+           
+        .catch(error => {
+                console.error(`Promise Failed: ${error}`);   
+                });
+        } // END for loop
+    } )    // END addEventListener 
+
+
+
+
+ 

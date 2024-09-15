@@ -18,7 +18,6 @@ function new_deck() {
                 }
             } )
         .then(resp => {
-            console.log("Promise completed successfully");
             resolve(resp.data);
         })
         .catch(err => {
@@ -40,7 +39,6 @@ function draw_a_card() {
                 }
             } )
         .then(resp => {
-            console.log("Promise completed successfully");
             resolve(resp.data);
         })
         .catch(err => {
@@ -73,7 +71,7 @@ btn_load.addEventListener("click", function(evt) {
     evt.preventDefault();
     new_deck()
         .then(data => {
-            console.log("New Deck Ready", data.deck_id);
+            console.log("New Deck Ready:", data.deck_id);
             prep_deck.innerText = "New Deck Ready.";
             new_card.innerText = "";
             card_image.src = "https://deckofcardsapi.com/static/img/back.png"

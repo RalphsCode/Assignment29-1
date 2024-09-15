@@ -148,7 +148,7 @@ btnSubmit3.addEventListener("click", function(evt) {
     for (let i=0; i<4; i++){
         getFacts(num)
         .then(data => {
-            favNumberFact.innerHTML += `${data.text}</p>`
+            favNumberFact.innerHTML += `<p>${data.text}</p>`
                 })
            
         .catch(error => {
